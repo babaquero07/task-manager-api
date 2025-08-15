@@ -85,4 +85,16 @@ export class TaskService {
       throw new Error("Error updating task");
     }
   }
+
+  async deleteTask(id: number): Promise<void> {
+    try {
+      await prisma.task.delete({
+        where: { id },
+      });
+    } catch (error) {
+      console.log(error);
+
+      throw new Error("Error deleting task");
+    }
+  }
 }

@@ -92,3 +92,7 @@ export const updateTaskValidator = [
     .isISO8601()
     .withMessage("Due date must be a valid ISO 8601 date"),
 ];
+
+export const deleteTaskValidator = [
+  param("id").isInt().withMessage("ID must be an integer"),
+];

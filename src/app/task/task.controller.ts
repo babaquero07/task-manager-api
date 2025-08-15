@@ -2,6 +2,7 @@ import { Request, Response, Router } from "express";
 import { TaskService } from "./task.service";
 import type { Task } from "./task.interface";
 import {
+  deleteTaskValidator,
   getTasksValidator,
   getTaskValidator,
   registerTaskValidator,
@@ -116,6 +117,37 @@ taskRouter.patch(
         ok: true,
         message: "Task updated successfully",
         task: updatedTask,
+      });
+    } catch (error) {
+      console.log(error);
+
+      return res.status(500).send({
+        ok: false,
+        message: "Internal server error",
+      });
+    }
+  }
+);
+
+taskRouter.delete(
+  "/:id",
+  validate(deleteTaskValidator),
+  async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const task = await taskService.getTask(+id);
+      if (!task) {
+        return res.status(404).send({
+          ok: false,
+          message: "Task not found",
+        });
+      }
+
+      await taskService.deleteTask(+id);
+
+      return res.status(200).send({
+        ok: true,
+        message: "Task deleted successfully",
       });
     } catch (error) {
       console.log(error);
