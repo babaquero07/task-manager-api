@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "concurrently \"npx tsc --watch\" \"nodemon --env-file=.env -q dist/app/index.js\" ",
-    "start": "node --env-file=.env dist/app/index.js",
+    "start": "node dist/app/index.js",
     "build": "npm i && tsc"
   },
   "keywords": [
