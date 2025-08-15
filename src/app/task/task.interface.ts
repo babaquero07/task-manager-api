@@ -8,3 +8,11 @@ export interface Task {
   createdAt?: Date;
   updatedAt?: Date;
 }
+
+export interface TaskUpdate {
+  title?: string;
+  description?: string;
+  status?: string;
+  priority?: number;
+  dueDate?: Date;
+}

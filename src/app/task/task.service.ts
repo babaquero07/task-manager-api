@@ -1,5 +1,5 @@
 import prisma from "../../lib/prisma";
-import { Task } from "./task.interface";
+import { Task, TaskUpdate } from "./task.interface";
 
 export class TaskService {
   async createTask(task: Task): Promise<Task> {
@@ -69,5 +69,20 @@ export class TaskService {
     });
 
     return task;
+  }
+
+  async updateTask(id: number, task: TaskUpdate): Promise<Task> {
+    try {
+      const updatedTask = await prisma.task.update({
+        where: { id },
+        data: task,
+      });
+
+      return updatedTask;
+    } catch (error) {
+      console.log(error);
+
+      throw new Error("Error updating task");
+    }
   }
 }

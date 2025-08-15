@@ -5,6 +5,7 @@ import {
   getTasksValidator,
   getTaskValidator,
   registerTaskValidator,
+  updateTaskValidator,
   validate,
 } from "../../utils/validators";
 
@@ -71,7 +72,6 @@ taskRouter.get(
   async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
-
       const task = await taskService.getTask(+id);
       if (!task) {
         return res.status(404).send({
@@ -84,6 +84,38 @@ taskRouter.get(
         ok: true,
         message: "Task fetched successfully",
         task,
+      });
+    } catch (error) {
+      console.log(error);
+
+      return res.status(500).send({
+        ok: false,
+        message: "Internal server error",
+      });
+    }
+  }
+);
+
+taskRouter.patch(
+  "/:id",
+  validate(updateTaskValidator),
+  async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const task = await taskService.getTask(+id);
+      if (!task) {
+        return res.status(404).send({
+          ok: false,
+          message: "Task not found",
+        });
+      }
+
+      const updatedTask = await taskService.updateTask(+id, req.body);
+
+      return res.status(200).send({
+        ok: true,
+        message: "Task updated successfully",
+        task: updatedTask,
       });
     } catch (error) {
       console.log(error);

@@ -69,3 +69,26 @@ export const getTasksValidator = [
 export const getTaskValidator = [
   param("id").isInt().withMessage("ID must be an integer"),
 ];
+
+export const updateTaskValidator = [
+  param("id").isInt().withMessage("ID must be an integer"),
+  body("title").optional().isString().withMessage("Title must be a string"),
+  body("description")
+    .optional()
+    .isString()
+    .withMessage("Description must be a string"),
+  body("status")
+    .optional()
+    .isIn(["pendiente", "en_progreso", "completada"])
+    .withMessage(
+      "Status must be either 'pendiente', 'en_progreso', or 'completada'"
+    ),
+  body("priority")
+    .optional()
+    .isInt({ min: 1, max: 3 })
+    .withMessage("Priority must be an integer between 1 and 3"),
+  body("dueDate")
+    .optional()
+    .isISO8601()
+    .withMessage("Due date must be a valid ISO 8601 date"),
+];
