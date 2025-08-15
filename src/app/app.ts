@@ -8,6 +8,7 @@ const app = express();
 const allowedOrigins = [
   "http://localhost:5173",
   "https://task-manager-front-tawny.vercel.app",
+  "https://task-manager-front-tawny.vercel.app/*",
 ];
 
 const options: cors.CorsOptions = {
