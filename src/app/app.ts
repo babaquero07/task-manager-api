@@ -5,7 +5,10 @@ import routes from "./routes";
 
 const app = express();
 
-const allowedOrigins = ["http://localhost:5173"];
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://task-manager-front-tawny.vercel.app",
+];
 
 const options: cors.CorsOptions = {
   origin: allowedOrigins,
