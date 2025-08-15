@@ -1,7 +1,11 @@
 import { Request, Response, Router } from "express";
 import { TaskService } from "./task.service";
 import type { Task } from "./task.interface";
-import { registerTaskValidator, validate } from "../../utils/validators";
+import {
+  getTasksValidator,
+  registerTaskValidator,
+  validate,
+} from "../../utils/validators";
 
 const taskService = new TaskService();
 const taskRouter = Router();
@@ -19,6 +23,35 @@ taskRouter.post(
         ok: true,
         message: "Task created successfully",
         task,
+      });
+    } catch (error) {
+      console.log(error);
+
+      return res.status(500).send({
+        ok: false,
+        message: "Internal server error",
+      });
+    }
+  }
+);
+
+taskRouter.get(
+  "/",
+  validate(getTasksValidator),
+  async (req: Request, res: Response) => {
+    try {
+      const { limit, offset, status } = req.query;
+
+      const data = await taskService.getTasks(
+        limit ? +limit : 5,
+        offset ? +offset : 0,
+        status ? (status as string) : undefined
+      );
+
+      return res.status(200).send({
+        ok: true,
+        message: "Tasks fetched successfully",
+        ...data,
       });
     } catch (error) {
       console.log(error);

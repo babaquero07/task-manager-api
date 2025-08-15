@@ -27,17 +27,6 @@ export const validate = (validations: ValidationChain[]) => {
   };
 };
 
-// model Task {
-//   id          Int       @id @default(autoincrement())
-//   title       String
-//   description String?
-//   status      String    @default("pendiente")
-//   priority    Int       @default(3)
-//   dueDate     DateTime?
-//   createdAt   DateTime  @default(now())
-//   updatedAt   DateTime  @updatedAt
-// }
-
 export const registerTaskValidator = [
   body("title").notEmpty().withMessage("Title is required"),
   body("description")
@@ -58,4 +47,21 @@ export const registerTaskValidator = [
     .optional()
     .isISO8601()
     .withMessage("Due date must be a valid ISO 8601 date"),
+];
+
+export const getTasksValidator = [
+  query("limit")
+    .optional()
+    .isInt({ min: 1, max: 100 })
+    .withMessage("Limit must be an integer between 1 and 100"),
+  query("offset")
+    .optional()
+    .isInt({ min: 0 })
+    .withMessage("Offset must be an integer greater than or equal to 0"),
+  query("status")
+    .optional()
+    .isIn(["pendiente", "en_progreso", "completada"])
+    .withMessage(
+      "Status must be either 'pendiente', 'en_progreso', or 'completada'"
+    ),
 ];
