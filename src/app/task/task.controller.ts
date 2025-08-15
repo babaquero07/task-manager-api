@@ -3,6 +3,7 @@ import { TaskService } from "./task.service";
 import type { Task } from "./task.interface";
 import {
   getTasksValidator,
+  getTaskValidator,
   registerTaskValidator,
   validate,
 } from "../../utils/validators";
@@ -52,6 +53,37 @@ taskRouter.get(
         ok: true,
         message: "Tasks fetched successfully",
         ...data,
+      });
+    } catch (error) {
+      console.log(error);
+
+      return res.status(500).send({
+        ok: false,
+        message: "Internal server error",
+      });
+    }
+  }
+);
+
+taskRouter.get(
+  "/:id",
+  validate(getTaskValidator),
+  async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+
+      const task = await taskService.getTask(+id);
+      if (!task) {
+        return res.status(404).send({
+          ok: false,
+          message: "Task not found",
+        });
+      }
+
+      return res.status(200).send({
+        ok: true,
+        message: "Task fetched successfully",
+        task,
       });
     } catch (error) {
       console.log(error);

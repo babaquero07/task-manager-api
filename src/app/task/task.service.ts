@@ -60,4 +60,14 @@ export class TaskService {
       throw new Error("Error fetching tasks");
     }
   }
+
+  async getTask(id: number): Promise<Task> {
+    const task = await prisma.task.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    return task;
+  }
 }

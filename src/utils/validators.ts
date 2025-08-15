@@ -65,3 +65,7 @@ export const getTasksValidator = [
       "Status must be either 'pendiente', 'en_progreso', or 'completada'"
     ),
 ];
+
+export const getTaskValidator = [
+  param("id").isInt().withMessage("ID must be an integer"),
+];
