@@ -5,7 +5,7 @@ import routes from "./routes";
 
 const app = express();
 
-const allowedOrigins = ["http://localhost"];
+const allowedOrigins = ["http://localhost:5173"];
 
 const options: cors.CorsOptions = {
   origin: allowedOrigins,

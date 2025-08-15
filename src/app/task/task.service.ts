@@ -41,7 +41,7 @@ export class TaskService {
         take: limit,
         where: statusFilter,
         orderBy: {
-          createdAt: "desc",
+          createdAt: "asc",
         },
       });
 
